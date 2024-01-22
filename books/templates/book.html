@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block 'header' %}
+
+<link href="{% static 'users/css/register.css' %}" rel="stylesheet" />
+<link href="{% static 'flashcard/css/new_flashcard.css' %}" rel="stylesheet" />
+<link
+	href="{% static 'flashcard/css/start_challenge.css' %}"
+	rel="stylesheet"
+/>
+<link href="{% static 'flashcard/css/challenge.css' %}" rel="stylesheet" />
+<link href="{% static 'books/css/add_books.css' %}" rel="stylesheet" />
+<link
+	href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+	rel="stylesheet"
+/>
+
+{% endblock 'header' %}
+{% block 'content' %}
+{% include "partials/header.html" %}
+<div class="container">
+	<br /><br />
+	<div class="row">
+		<div class="col-md">
+			<a href="{{book.file.url}}" target="_blank">
+				<div style="width: 100%" id="pdf-container"></div>
+			</a>
+		</div>
+		<div class="col-md">
+			<p>Unique views: {{unique_views}}</p>
+			<p>Total views: {{total_views}}</p>
+		</div>
+	</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+<script>
+	const container = document.getElementById("pdf-container");
+{% comment %}
+{{book.file.url}}
+book -> Model
+file -> atributo
+url -> url
+{% endcomment %}
+	pdfjsLib.getDocument("{{book.file.url}}").promise.then((pdf) => {
+		pdf.getPage(1).then((page) => {
+			const canvas = document.createElement("canvas");
+			const context = canvas.getContext("2d");
+			const viewport = page.getViewport({ scale: 0.75 });
+
+			canvas.width = viewport.width;
+			canvas.height = viewport.height;
+
+			page.render({ canvasContext: context, viewport }).promise.then(() => {
+				container.appendChild(canvas);
+			});
+		});
+	});
+</script>
+
+{% endblock 'content' %}

@@ -1,0 +1,118 @@
+<!-- @format -->
+
+{% extends "base.html" %} {% load static %} {% block 'header' %}
+<link href="{% static 'users/css/register.css' %}" rel="stylesheet" />
+<link
+  href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+  rel="stylesheet" />
+<link href="{% static 'flashcard/css/new_flashcard.css' %}" rel="stylesheet" />
+{% endblock 'header' %}
+{% block 'content' %}
+{% include 'partials/header.html'%}
+<div class="container">
+  <br />
+  <br />
+  <div class="row">
+    <div class="col-md">
+      <div class="box-form">
+        <form action="{% url 'new_flashcard' %}" method="POST">
+          {% csrf_token %} {% csrf_token %}
+          <h3>New flashcard</h3>
+          {% if messages %}
+          <br />
+          {% for message in messages %}
+          <section class="alert {{message.tags}}">{{message}}</section>
+          {% endfor %} {% endif %}
+          <br />
+          <label>Question</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Question"
+            name="question" />
+          <br />
+          <label>Answer</label>
+          <textarea class="form-control" name="answer"></textarea>
+          <br />
+          <div class="row">
+            <div class="col-md">
+              <label for="">Category</label>
+              <select class="form-select" name="category">
+                {% for category in categories %}
+                <option value="{{category.id}}">{{ category }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md">
+              <label for="">Difficulty</label>
+              <select class="form-select" name="difficulty">
+                {% for difficulty in difficulties %}
+                <option value="{{difficulty.0}}">{{ difficulty.1 }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <br />
+          <input type="submit" value="Send" class="btn-register" />
+          <br />
+          <br />
+          <br />
+        </form>
+      </div>
+    </div>
+    <div class="col-md">
+      <form action="{% url 'new_flashcard' %}" method="GET">
+        <div class="row">
+          <div class="col-md">
+            <label for="">Category</label>
+            <select name="category" id="" class="form-select">
+              <option value="">All Categories</option>
+              {% for category in categories %}
+              <option value="{{category.id}}">{{ category }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md">
+            <label for="">Difficulty</label>
+            <select name="difficulty" id="" class="form-select">
+              <option value="">All Difficulties</option>
+              {% for difficulty in difficulties %}
+              <option value="{{difficulty.0}}">{{ difficulty.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md">
+            <br />
+            <input
+              type="submit"
+              style="width: 100%"
+              value="Filter"
+              class="btn-register" />
+          </div>
+        </div>
+      </form>
+      <br />
+      <br />
+      {% for flashcard in flashcards %}
+      <div class="box-new-flashcard">
+        <div class="flashcard {{flashcard.css_difficulty}}">
+          <div class="flashcard-category">{{flashcard.category}}</div>
+          <a href="{% url 'delete_flashcard' flashcard.id%}"><i class="icone-exit bx bx-x-circle"></i></a>
+          <br />
+          <br />
+          <div class="flashcard-box-item" onclick="flip_card({{flashcard.id}})">
+            <p class="flashcard-item">{{flashcard.question}} ?</p>
+          </div>
+        </div>
+        <div class="answer-flashcard" id="{{flashcard.id}}">
+          {{flashcard.answer}}
+        </div>
+      </div>
+      <br />
+      <br />
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script src="{% static "flashcard/js/flashcard.js" %}"></script>
+{% endblock 'content' %}

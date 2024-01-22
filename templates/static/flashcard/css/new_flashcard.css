@@ -1,0 +1,41 @@
+.box-new-flashcard {
+  width: 70%;
+  margin: auto;
+}
+.flashcard {
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 20px;
+}
+.flashcard-box-item {
+  text-align: center;
+}
+.flashcard p {
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.flashcard-easy {
+  border-left: 20px solid #1dab1a;
+}
+.flashcard-medium {
+  border-left: 20px solid #e8910e;
+}
+.flashcard-hard {
+  border-left: 20px solid #fe0000;
+}
+.flashcard-category {
+  background-color: var(--dark-color);
+  display: inline;
+  padding: 10px;
+}
+.answer-flashcard {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 20px;
+  display: none;
+}
+.icone-exit {
+  float: right;
+  font-size: 25px;
+  color: orangered;
+}

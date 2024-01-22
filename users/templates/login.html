@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% load static %} {% block 'header' %}
+<link href="{% static 'users/css/register.css' %}" rel="stylesheet" />
+{% endblock %} {% block 'content' %}
+<div class="bg1">
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <div class="box-title">
+          <div class="box-title-item">
+            <img src="{% static 'users/img/logo.png' %}" />
+          </div>
+          <div
+            style="margin-top: auto; margin-bottom: auto"
+            class="box-title-item">
+            <h3>Study.Async</h3>
+          </div>
+        </div>
+        <hr class="divider" />
+        <br />
+        <div class="tac">
+          <h4 style="font-size: 30px">
+            Sua plataforma online<br />
+            para te ajudar nos estudos
+          </h4>
+        </div>
+      </div>
+      <div class="col-md">
+        <br />
+        <br />
+        <div class="box-form">
+          <div class="box-circle">
+            <div class="circle c1"></div>
+            <div class="circle c2"></div>
+            <div class="circle c3"></div>
+          </div>
+          <br />
+          <h3>Login</h3>
+          {% if messages %} {% for message in messages %}
+          <section class="alert {{message.tags}}">{{message}}</section>
+          {% endfor %} {% endif %}
+          <form action="{% url 'login' %}" method="POST">{% csrf_token %}
+            <label>Username</label>
+            <input type="text" class="input-form" name="username" id="" />
+            <br />
+            <br />
+            <label>Password</label>
+            <input type="password" class="input-form" name="password" id="" />
+            <br />
+            <br />
+            <input type="submit" value="Send" class="btn-register" />
+            <br />
+            <br />
+            <br />
+            <br />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock 'content' %}

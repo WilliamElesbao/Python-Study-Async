@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'header' %}
+
+    <link href="{% static 'users/css/register.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/new_flashcard.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/start_challenge.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/challenge.css' %}" rel="stylesheet">
+    <link href="{% static 'books/css/add_books.css' %}" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock 'header' %}
+
+
+{% block 'content' %}
+    {% include "partials/header.html" %}
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="col-md">
+
+                <div class="box-form">
+                    {% if messages %}
+                        <br>
+                        {% for message in messages %}
+                            <section class="alert {{message.tags}}">
+                                {{message}}
+                            </section>
+                        {% endfor %}
+                        <br>
+                    {% endif %}
+                    <form action="{% url 'add_books' %}" method="POST" enctype='multipart/form-data'>{% csrf_token %}
+                        <p class="font-second">Add Summaries</p>
+                        <label>Title</label>
+                        <input type="text" name="title" placeholder="Title" class="form-control">
+                        <br>
+                        <label>File</label>
+                        <input type="file" name="file" class="form-control">
+                        <br>
+                        <input type="submit" class="btn-register" value="Send">
+                    </form>
+                </div>
+
+            </div>
+            <div class="col-md">
+
+                <table>
+                    <thead>
+                      <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                       
+                        {% for book in books  %}
+                            <tr class="line">
+                                <td>{{book.title}}</td>
+                                <td><a href="{% url 'book' book.id %}" style="color: black; text-decoration: none;" class="btn-register">Open</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                  <hr>
+                  <p class="font-second">Total Views: {{total_views}}</p>
+            </div>
+        </div>
+    </div>
+{% endblock 'content' %}

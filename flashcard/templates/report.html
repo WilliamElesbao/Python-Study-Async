@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'header' %}
+
+    <link href="{% static 'users/css/register.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/new_flashcard.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/start_challenge.css' %}" rel="stylesheet">
+    <link href="{% static 'flashcard/css/challenge.css' %}" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+{% endblock 'header' %}
+
+
+{% block 'content' %}
+    {% include "partials/header.html" %}
+    <div class="container">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md">
+                <p class="font-second">{{challenge.title}}</p>
+                <hr>
+                <canvas id="graphic1"></canvas>
+            </div>
+            <div class="col-md">
+                <br><br><br><br>
+                
+                <div style="background-color: white;">
+
+                    <canvas id="graphic2"></canvas>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('graphic1');
+      
+        new Chart(ctx, {
+          type: 'pie',
+          data: {
+            labels: ['Hits', 'Errors'],
+            datasets: [{
+              label: 'Qnt',
+              data: {{datas}},
+              borderWidth: 0
+            }]
+          },
+          
+        });
+    </script>
+
+    <script>
+
+        const ctx2 = document.getElementById('graphic2');
+      
+        new Chart(ctx2, {
+          type: 'radar',
+          data: {
+            labels: {{name_category|safe}},
+            datasets: [{
+              label: 'Qnt',
+              data: {{data2}},
+              borderWidth: 1,
+              fill: true,
+              backgroundColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgb(255, 99, 132)',
+              pointBackgroundColor: 'rgb(255, 99, 132)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgb(255, 99, 132)'
+            }]
+          },
+          
+        });
+
+    </script>
+{% endblock 'content' %}
