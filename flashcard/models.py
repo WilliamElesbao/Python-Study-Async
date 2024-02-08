@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.safestring import mark_safe
 
 class Category(models.Model):
     name = models.CharField(max_length = 20)
@@ -47,3 +48,9 @@ class Challenge(models.Model):
 
     def __str__(self):
         return self.title
+    
+    def status(self):
+        if self.flashcards.filter(answered = False).exists():
+            return mark_safe('<span class="badge bg-primary">Em aberto</span>')
+        else:
+            return mark_safe('<span class="badge bg-success">Concluído</span>')

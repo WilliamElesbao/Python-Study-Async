@@ -14,14 +14,22 @@
 <br>
 <div class="row">
 <div class="col-md">
-<form action="" method="GET">
+<form action="{% url 'list_challenge' %}" method="GET">
 <label for="">Category</label>
 <select name="category" class="form-select">
+    <option value=""></option>
+    {% for category in categories %}
+        <option value="{{category.id}}">{{category}}</option>
+    {% endfor%}
 </select>
 </div>
 <div class="col-md">
 <label for="">Difficulty</label>
 <select name="difficulty" class="form-select">
+    <option value=""></option>
+    {% for difficulty in difficulties%}
+    <option value="{{difficulty.0}}">{{difficulty.1}}</option>
+    {% endfor%}
 </select>
 </div>
 <div class="col-md">
