@@ -47,7 +47,7 @@ def new_flashcard(request):
         return redirect ('/flashcard/new_flashcard')
 
 def delete_flashcard(request, id):
-    # TODO: fazer validação de segurança para que um user não exclua os flashcard de outro user somente trocando o ID na URL
+    
     flashcard = Flashcard.objects.get(id = id)
     flashcard.delete()
     messages.add_message(request, constants.SUCCESS, "Flashcard successfully deleted!")
@@ -87,7 +87,7 @@ def start_challenge(request):
         )
 
         if flashcards.count() < int(qnt_questions):
-            # TODO: tratar para escolher depois
+
             messages.add_message(request, constants.ERROR,(f"You requested {qnt_questions} flashcard. However, there are only {flashcards.count()} flashcards registrations.!"))
             return redirect ('/flashcard/start_challenge/')
 
@@ -106,9 +106,19 @@ def start_challenge(request):
 
 def list_challenge(request):
     challenge = Challenge.objects.filter(user=request.user)
-    # TODO: Desenvolver os status
-    # TODO: Desenvolver os filtros
-    return render(request, 'list_challenge.html', {'challenges': challenge})
+
+    categories = Category.objects.all()
+    difficulties = Flashcard.DIFFICULTY_CHOICES
+
+    category = request.GET.get('category')
+    difficulty = request.GET.get('difficulty')
+
+    if category:
+        challenge = challenge.filter(category__id=category)
+    if difficulty:
+        challenge = challenge.filter(difficulty=difficulty)
+
+    return render(request, 'list_challenge.html', {'challenges': challenge, 'categories': categories, 'difficulties':difficulties})
 
 def challenge(request, id):
     challenge = Challenge.objects.get(id=id)
@@ -160,7 +170,5 @@ def report(request, id):
 
     print(name_category)
     print(data2)
-
-    # TODO: Fazer o ranking das 3 melhores e 3 piores matérias
 
     return render(request, 'report.html', {'challenge':challenge, 'datas': datas, 'name_category':name_category, 'data2':data2})
